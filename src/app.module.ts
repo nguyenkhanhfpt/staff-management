@@ -2,7 +2,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from '@app.controller';
 import { PostsModule } from '@modules/posts/posts.module';
 import { AppService } from '@app.service';
-import { UsersModule } from '@modules/users/users.module';
+import { StaffsModule } from '@modules/staffs/staffs.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from '@modules/auth/auth.module';
@@ -19,6 +19,8 @@ import { ClsModule } from 'nestjs-cls';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { DirectiveLocation, GraphQLDirective } from 'graphql';
+import { DepartmentsModule } from '@modules/departments/departments.module';
+import { OfficesModule } from '@modules/offices/offices.module';
 
 @Module({
   imports: [
@@ -60,7 +62,9 @@ import { DirectiveLocation, GraphQLDirective } from 'graphql';
       },
     }),
     LoggerModule,
-    UsersModule,
+    StaffsModule,
+    DepartmentsModule,
+    OfficesModule,
     AuthModule,
     QueueModule,
     PostsModule,

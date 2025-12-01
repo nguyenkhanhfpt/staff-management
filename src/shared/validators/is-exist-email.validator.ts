@@ -1,4 +1,4 @@
-import { UsersService } from '@modules/users/users.service';
+import { StaffsService } from '@modules/staffs/staffs.service';
 import { Injectable } from '@nestjs/common';
 import { ValidateConstant } from '@shared/constants/validate.constant';
 import {
@@ -14,7 +14,7 @@ export const IS_EXIST_EMAIL = 'isExistEmail';
 @ValidatorConstraint({ name: IS_EXIST_EMAIL, async: true })
 @Injectable()
 export class IsExistEmailValidator implements ValidatorConstraintInterface {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly staffsService: StaffsService) {}
 
   /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
   async validate(value: any, args: ValidationArguments) {
@@ -22,7 +22,7 @@ export class IsExistEmailValidator implements ValidatorConstraintInterface {
       return false;
     }
 
-    return !(await this.usersService.findOneBy(
+    return !(await this.staffsService.findOneBy(
       {
         email: value,
       },
