@@ -3,7 +3,7 @@
   "E403": "Not permission",
   "E404": "Resource not found",
   "E500": "Internal error",
-  "userEntity": {
+  "staffEntity": {
     "name": {
       "isNotEmpty": "Name is required"
     },

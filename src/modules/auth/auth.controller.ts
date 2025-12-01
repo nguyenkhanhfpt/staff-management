@@ -17,7 +17,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { GetTokenDto, LoginResDto } from './dtos/res/login-res.dto';
-import { GetUserResDto } from './dtos/res';
+import { GetStaffResDto } from './dtos/res';
 import { Serialize } from '@interceptors';
 
 @ApiTags('Auth')
@@ -28,10 +28,10 @@ export class AuthController {
 
   @Public()
   @Post('login')
-  @ApiOperation({ summary: 'Login', description: 'User login endpoint' })
+  @ApiOperation({ summary: 'Login', description: 'Staff login endpoint' })
   @ApiResponse({
     status: 200,
-    description: 'The user has been successfully logged in.',
+    description: 'The staff has been successfully logged in.',
     type: LoginResDto,
   })
   @ApiBody({ type: LoginDto })
@@ -45,11 +45,11 @@ export class AuthController {
 
   @Public()
   @Post('register')
-  @ApiOperation({ summary: 'Register', description: 'User register endpoint' })
+  @ApiOperation({ summary: 'Register', description: 'Staff register endpoint' })
   @ApiBody({ type: RegisterDto })
   @ApiResponse({
     status: 200,
-    description: 'The user has been successfully registered.',
+    description: 'The staff has been successfully registered.',
     type: LoginResDto,
   })
   @ApiErrorsResponse({
@@ -61,7 +61,7 @@ export class AuthController {
   }
 
   @Get('logout')
-  @ApiOperation({ summary: 'Logout', description: 'User logout endpoint' })
+  @ApiOperation({ summary: 'Logout', description: 'Staff logout endpoint' })
   @ApiGetErrorsResponse()
   logout() {
     return 'Logout';
@@ -91,19 +91,19 @@ export class AuthController {
     return this.authService.refresh(email, refreshToken);
   }
 
-  @Get('get-user')
+  @Get('get-staff')
   @ApiOperation({
-    summary: 'Get current user info',
-    description: 'Get current logged in user information',
+    summary: 'Get current staff info',
+    description: 'Get current logged in staff information',
   })
   @ApiResponse({
     status: 200,
-    description: 'Returns the current logged in user information.',
-    type: GetUserResDto,
+    description: 'Returns the current logged in staff information.',
+    type: GetStaffResDto,
   })
-  @Serialize(GetUserResDto)
+  @Serialize(GetStaffResDto)
   @ApiGetErrorsResponse()
-  getUser(@User('id') userId: number): Promise<GetUserResDto> {
-    return this.authService.getUser(userId);
+  getStaff(@User('id') staffId: string): Promise<GetStaffResDto> {
+    return this.authService.getStaff(staffId);
   }
 }

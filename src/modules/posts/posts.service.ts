@@ -12,24 +12,24 @@ export class PostsService {
     private readonly postRepository: Repository<PostEntity>,
   ) {}
 
-  create(createPostDto: CreatePostDto, userId: number) {
+  create(createPostDto: CreatePostDto, staffId: string) {
     const post = this.postRepository.create({
       ...createPostDto,
-      userId,
+      staffId,
     });
     return this.postRepository.save(post);
   }
 
   async findAll() {
     return this.postRepository.find({
-      relations: ['user'],
+      relations: ['staff'],
     });
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const post = await this.postRepository.findOne({
       where: { id },
-      relations: ['user'],
+      relations: ['staff'],
     });
 
     if (!post) {
@@ -39,10 +39,10 @@ export class PostsService {
     return post;
   }
 
-  async update(id: number, updatePostDto: UpdatePostDto, userId: number) {
+  async update(id: string, updatePostDto: UpdatePostDto, staffId: string) {
     const post = await this.findOne(id);
 
-    if (post.userId !== userId) {
+    if (post.staffId !== staffId) {
       throw new NotFoundException('Post not found');
     }
 
@@ -50,10 +50,10 @@ export class PostsService {
     return this.postRepository.save(post);
   }
 
-  async remove(id: number, userId: number) {
+  async remove(id: string, staffId: string) {
     const post = await this.findOne(id);
 
-    if (post.userId !== userId) {
+    if (post.staffId !== staffId) {
       throw new NotFoundException('Post not found');
     }
 

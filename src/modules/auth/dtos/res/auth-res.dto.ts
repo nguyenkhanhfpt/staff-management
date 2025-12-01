@@ -1,14 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 
-export class UserItemDto {
-  @ApiProperty({ example: 1, description: 'User ID', type: Number })
+export class StaffItemDto {
+  @ApiProperty({ example: 1, description: 'Staff ID', type: Number })
   @Expose()
   id: number;
 
   @ApiProperty({
     example: 'John Doe',
-    description: 'Full name of the user',
+    description: 'Full name of the staff',
     type: String,
   })
   @Expose()
@@ -16,11 +16,11 @@ export class UserItemDto {
 
   @ApiProperty({
     example: 'abc@gmail.com',
-    description: 'Email address of the user',
+    description: 'Email address of the staff',
     type: String,
   })
   @Expose()
   email: string;
 }
 
-export class GetUserResDto extends UserItemDto {}
+export class GetStaffResDto extends StaffItemDto {}

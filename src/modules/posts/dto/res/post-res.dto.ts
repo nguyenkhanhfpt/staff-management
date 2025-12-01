@@ -1,23 +1,23 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
 
-export class UserItemDto {
+export class StaffItemDto {
   @ApiProperty({
-    description: 'ID of the user',
-    example: 1,
+    description: 'ID of the staff (UUID)',
+    example: '123e4567-e89b-12d3-a456-426614174000',
   })
   @Expose()
-  id: number;
+  id: string;
 
   @ApiProperty({
-    description: 'Name of the user',
+    description: 'Name of the staff',
     example: 'John Doe',
   })
   @Expose()
   name: string;
 
   @ApiProperty({
-    description: 'Email of the user',
+    description: 'Email of the staff',
     example: 'abc@gmail.com',
   })
   @Expose()
@@ -26,11 +26,11 @@ export class UserItemDto {
 
 export class PostItemDto {
   @ApiProperty({
-    description: 'ID of the post',
-    example: 1,
+    description: 'ID of the post (UUID)',
+    example: '123e4567-e89b-12d3-a456-426614174000',
   })
   @Expose()
-  id: number;
+  id: string;
 
   @ApiProperty({
     description: 'Title of the post',
@@ -47,17 +47,17 @@ export class PostItemDto {
   content: string;
 
   @ApiProperty({
-    description: 'ID of the user who created the post',
-    example: 1,
+    description: 'ID of the staff who created the post (UUID)',
+    example: '123e4567-e89b-12d3-a456-426614174000',
   })
   @Expose()
-  userId: number;
+  staffId: string;
 
   @ApiProperty({
-    description: 'User who created the post',
-    type: () => UserItemDto,
+    description: 'Staff who created the post',
+    type: () => StaffItemDto,
   })
   @Expose()
-  @Type(() => UserItemDto)
-  user: UserItemDto;
+  @Type(() => StaffItemDto)
+  staff: StaffItemDto;
 }

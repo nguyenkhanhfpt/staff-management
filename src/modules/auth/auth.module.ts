@@ -5,17 +5,26 @@ import { AccessTokenStrategy } from '@modules/auth/strategies/access-token.strat
 import { RefreshTokenStrategy } from '@modules/auth/strategies/refresh-token.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from '@database/entities/user.entity';
+import { StaffEntity } from '@database/entities/staff.entity';
 import { IsExistEmailValidator } from '@shared/validators';
-import { UsersModule } from '@modules/users/users.module';
-import { UsersService } from '@modules/users/users.service';
+import { StaffsModule } from '@modules/staffs/staffs.module';
+import { StaffsService } from '@modules/staffs/staffs.service';
 import { PostEntity } from '@database/entities/post.entity';
+import { StaffInfoEntity } from '@database/entities/staff-info.entity';
+import { StaffDepartmentEntity } from '@database/entities/staff-department.entity';
+import { DepartmentEntity } from '@database/entities/department.entity';
 
 @Module({
   imports: [
     JwtModule.register({}),
-    TypeOrmModule.forFeature([UserEntity, PostEntity]),
-    UsersModule,
+    TypeOrmModule.forFeature([
+      StaffEntity,
+      PostEntity,
+      StaffInfoEntity,
+      StaffDepartmentEntity,
+      DepartmentEntity,
+    ]),
+    StaffsModule,
   ],
   controllers: [AuthController],
   providers: [
@@ -23,7 +32,7 @@ import { PostEntity } from '@database/entities/post.entity';
     AccessTokenStrategy,
     RefreshTokenStrategy,
     IsExistEmailValidator,
-    UsersService,
+    StaffsService,
   ],
 })
 export class AuthModule {}

@@ -6,11 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { UpdatePostDto } from './dto/req/update-post.dto';
 import { User as UserDecorator } from '@decorators/user.decorator';
-import { UserEntity } from '@database/entities/user.entity';
+import { StaffEntity } from '@database/entities/staff.entity';
 import {
   ApiBearerAuth,
   ApiTags,
@@ -38,9 +39,9 @@ export class PostsController {
   @ApiErrorsResponse()
   create(
     @Body() createPostDto: CreatePostDto,
-    @UserDecorator('id') userId: number,
+    @UserDecorator('id') staffId: string,
   ) {
-    return this.postsService.create(createPostDto, userId);
+    return this.postsService.create(createPostDto, staffId);
   }
 
   @Get()
@@ -58,7 +59,11 @@ export class PostsController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get a post by ID' })
-  @ApiParam({ name: 'id', description: 'Post ID', example: '1' })
+  @ApiParam({
+    name: 'id',
+    description: 'Post ID (UUID)',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+  })
   @ApiResponse({
     status: 200,
     description: 'Returns the post with the specified ID.',
@@ -66,35 +71,46 @@ export class PostsController {
   })
   @ApiGetErrorsResponse()
   @Serialize(PostItemDto)
-  findOne(@Param('id') id: string): Promise<PostItemDto> {
-    return this.postsService.findOne(+id);
+  findOne(@Param('id', ParseUUIDPipe) id: string): Promise<PostItemDto> {
+    return this.postsService.findOne(id);
   }
 
   @Patch(':id')
   @ApiOperation({ summary: 'Update a post' })
-  @ApiParam({ name: 'id', description: 'Post ID', example: '1' })
+  @ApiParam({
+    name: 'id',
+    description: 'Post ID (UUID)',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+  })
   @ApiResponse({
     status: 200,
     description: 'Post has been successfully updated.',
   })
   @ApiErrorsResponse()
   update(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updatePostDto: UpdatePostDto,
-    @UserDecorator() user: UserEntity,
+    @UserDecorator() staff: StaffEntity,
   ) {
-    return this.postsService.update(+id, updatePostDto, user.id);
+    return this.postsService.update(id, updatePostDto, staff.id);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a post' })
-  @ApiParam({ name: 'id', description: 'Post ID', example: '1' })
+  @ApiParam({
+    name: 'id',
+    description: 'Post ID (UUID)',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+  })
   @ApiResponse({
     status: 200,
     description: 'Post has been successfully deleted.',
   })
   @ApiGetErrorsResponse()
-  remove(@Param('id') id: string, @UserDecorator() user: UserEntity) {
-    return this.postsService.remove(+id, user.id);
+  remove(
+    @Param('id', ParseUUIDPipe) id: string,
+    @UserDecorator() staff: StaffEntity,
+  ) {
+    return this.postsService.remove(id, staff.id);
   }
 }

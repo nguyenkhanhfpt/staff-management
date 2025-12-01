@@ -4,8 +4,8 @@
 
 directive @upper on FIELD_DEFINITION
 
-type User {
-  id: Int!
+type Staff {
+  id: ID!
   name: String!
   email: String!
 }
@@ -14,8 +14,8 @@ type Post {
   id: Int!
   title: String!
   content: String!
-  userId: Int!
-  user: User
+  staffId: ID!
+  staff: Staff
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -27,8 +27,8 @@ scalar DateTime
 
 type Query {
   getHello: String!
-  users: [User!]!
-  user(id: Int!): User!
+  staffs: [Staff!]!
+  staff(id: ID!): Staff!
   posts: [Post!]!
-  post(id: Int!): Post!
+  post(id: String!): Post!
 }

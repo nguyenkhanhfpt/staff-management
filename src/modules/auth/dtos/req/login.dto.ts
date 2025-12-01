@@ -1,13 +1,13 @@
 import { IsNotEmpty } from 'class-validator';
-import { UserEntity } from '@database/entities/user.entity';
+import { StaffEntity } from '@database/entities/staff.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class LoginDto {
-  public static readonly resource = UserEntity.name;
+  public static readonly resource = StaffEntity.name;
 
   @ApiProperty({
     example: 'example@gmail.com',
-    description: 'Email of the user',
+    description: 'Email of the staff',
     type: String,
   })
   @IsNotEmpty()
@@ -15,7 +15,7 @@ export class LoginDto {
 
   @ApiProperty({
     example: 'strongPassword123',
-    description: 'Password of the user',
+    description: 'Password of the staff',
     type: String,
   })
   @IsNotEmpty()

@@ -3,13 +3,13 @@ import { LoginDto } from '@modules/auth/dtos/req/login.dto';
 import { RegisterDto } from '@modules/auth/dtos/req/register.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from '@database/entities/user.entity';
+import { StaffEntity } from '@database/entities/staff.entity';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { comparePassword, hashPassword } from '@shared/utils';
 import { JwtPayload } from '@modules/auth/strategies/access-token.strategy';
 import { GetTokenDto, LoginResDto } from './dtos/res/login-res.dto';
-import { GetUserResDto } from './dtos/res';
+import { GetStaffResDto } from './dtos/res';
 import { plainToInstance } from 'class-transformer';
 
 /**
@@ -18,41 +18,41 @@ import { plainToInstance } from 'class-transformer';
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
+    @InjectRepository(StaffEntity)
+    private readonly staffRepository: Repository<StaffEntity>,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}
 
   /**
-   * Login user
+   * Login staff
    * @param loginDto
    */
   async login(loginDto: LoginDto): Promise<LoginResDto> {
-    const user = await this.userRepository.findOne({
+    const staff = await this.staffRepository.findOne({
       where: { email: loginDto.email },
     });
 
-    if (!user) {
+    if (!staff) {
       throw new BadRequestException('Invalid credentials');
     }
 
     const isPasswordMatch = await comparePassword(
       loginDto.password,
-      user.password,
+      staff.password,
     );
 
     if (!isPasswordMatch) {
       throw new BadRequestException('Invalid credentials');
     }
 
-    const tokens = await this.getTokens(user);
+    const tokens = await this.getTokens(staff);
 
     return plainToInstance(
       LoginResDto,
       {
         ...tokens,
-        user,
+        staff,
       },
       {
         excludeExtraneousValues: true,
@@ -61,20 +61,20 @@ export class AuthService {
   }
 
   /**
-   * Register user
+   * Register staff
    * @param registerDto
    */
   async register(registerDto: RegisterDto): Promise<LoginResDto> {
     registerDto.password = await hashPassword(registerDto.password);
-    const user = await this.userRepository.save(registerDto);
+    const staff = await this.staffRepository.save(registerDto);
 
-    const tokens = await this.getTokens(user);
+    const tokens = await this.getTokens(staff);
 
     return plainToInstance(
       LoginResDto,
       {
         ...tokens,
-        user,
+        staff,
       },
       {
         excludeExtraneousValues: true,
@@ -94,10 +94,10 @@ export class AuthService {
    * @param refreshToken
    */
   async refresh(email: string, refreshToken: string): Promise<GetTokenDto> {
-    const user = await this.userRepository.findOne({
+    const staff = await this.staffRepository.findOne({
       where: { email },
     });
-    const { accessToken } = await this.getTokens(user);
+    const { accessToken } = await this.getTokens(staff);
 
     return {
       accessToken,
@@ -107,15 +107,15 @@ export class AuthService {
 
   /**
    * Generate access and refresh tokens
-   * @param user
+   * @param staff
    */
-  async getTokens(user: UserEntity): Promise<GetTokenDto> {
+  async getTokens(staff: StaffEntity): Promise<GetTokenDto> {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
         {
-          id: user.id,
-          name: user.name,
-          email: user.email,
+          id: staff.id,
+          name: staff.name,
+          email: staff.email,
         } as JwtPayload,
         {
           secret: this.configService.get<string>('app.jwt.accessSecret'),
@@ -124,9 +124,9 @@ export class AuthService {
       ),
       this.jwtService.signAsync(
         {
-          id: user.id,
-          name: user.name,
-          email: user.email,
+          id: staff.id,
+          name: staff.name,
+          email: staff.email,
         } as JwtPayload,
         {
           secret: this.configService.get<string>('app.jwt.refreshSecret'),
@@ -138,10 +138,10 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-  async getUser(id: number): Promise<GetUserResDto> {
-    const user = await this.userRepository.findOne({ where: { id } });
+  async getStaff(id: string): Promise<GetStaffResDto> {
+    const staff = await this.staffRepository.findOne({ where: { id } });
 
-    return plainToInstance(GetUserResDto, user, {
+    return plainToInstance(GetStaffResDto, staff, {
       excludeExtraneousValues: true,
     });
   }
