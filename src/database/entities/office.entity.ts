@@ -8,7 +8,7 @@ export class OfficeEntity extends BaseEntity {
   name: string;
 
   @Column({ nullable: true })
-  location: string;
+  location?: string | null;
 
   @OneToMany(() => StaffInfoEntity, (staffInfo) => staffInfo.office)
   staffInfos: StaffInfoEntity[];
