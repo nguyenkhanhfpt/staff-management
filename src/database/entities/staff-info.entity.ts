@@ -8,29 +8,32 @@ export class StaffInfoEntity extends BaseEntity {
   @Column({ name: 'staff_id', type: 'uuid', unique: true })
   staffId: string;
 
-  @Column({ nullable: true })
-  phone: string;
+  @Column({ name: 'avatar', nullable: true })
+  avatar?: string | null;
 
   @Column({ nullable: true })
-  address: string;
+  phone?: string | null;
+
+  @Column({ nullable: true })
+  address?: string | null;
 
   @Column({ name: 'tax_code', nullable: true })
-  taxCode: string;
+  taxCode?: string | null;
 
   @Column({ name: 'start_date', type: 'date', nullable: true })
-  startDate: Date;
+  startDate?: Date | null;
 
   @Column({ name: 'date_of_birth', type: 'date', nullable: true })
-  dateOfBirth: Date;
+  dateOfBirth?: Date | null;
 
   @Column({ nullable: true })
-  nationality: string;
+  nationality?: string | null;
 
   @Column({ nullable: true, type: 'text' })
-  notes: string;
+  notes?: string | null;
 
   @Column({ name: 'office_id', nullable: true })
-  officeId: number | null;
+  officeId?: number | null;
 
   @OneToOne(() => StaffEntity, (staff) => staff.staffInfo, {
     onDelete: 'CASCADE',

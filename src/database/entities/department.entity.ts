@@ -17,7 +17,7 @@ export class DepartmentEntity extends BaseEntity {
   shortName: string;
 
   @Column({ name: 'parent_id', nullable: true })
-  parentId: number | null;
+  parentId?: number | null;
 
   @ManyToOne(() => DepartmentEntity, (department) => department.children, {
     nullable: true,
