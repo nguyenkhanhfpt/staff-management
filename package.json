@@ -23,7 +23,10 @@
     "typeorm": "ts-node --transpile-only ./node_modules/typeorm/cli.js -d src/database/data-source.ts",
     "m:generate": "npm run typeorm -- migration:generate ./src/database/migrations/$npm_config_name",
     "m:up": "npm run typeorm migration:run --",
-    "m:down": "npm run typeorm migration:revert --"
+    "m:down": "npm run typeorm migration:revert --",
+    "seed:run": "ts-node ./node_modules/typeorm-extension/bin/cli.cjs seed:run --name ./src/database/seeds/$npm_config_name",
+    "seed:create": "ts-node ./node_modules/typeorm-extension/bin/cli.cjs seed:create --name ./src/database/seeds/$npm_config_name",
+    "seed:master": "ts-node ./node_modules/typeorm-extension/bin/cli.cjs seed:run --name ./src/database/seeds/master-seeder.ts"
   },
   "dependencies": {
     "@apollo/server": "^4.12.2",
@@ -47,6 +50,7 @@
     "cache-manager-ioredis": "^2.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "csv-parser": "^3.2.0",
     "graphql": "^16.11.0",
     "helmet": "^8.1.0",
     "ioredis": "^5.4.1",
@@ -59,6 +63,7 @@
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.20",
+    "typeorm-extension": "^3.7.2",
     "winston": "^3.17.0"
   },
   "devDependencies": {

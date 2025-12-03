@@ -1,13 +1,13 @@
-up:
+up-full:
 	docker-compose -f docker-compose.local.yml up -d
 
 down:
 	docker-compose -f docker-compose.local.yml down
 
 restart:
-	down up
+	down up-full
 
-up-basic:
+up:
 	docker-compose -f docker-compose.local.yml up -d api database redis
 
 api:
