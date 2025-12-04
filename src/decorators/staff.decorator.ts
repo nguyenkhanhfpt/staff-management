@@ -5,11 +5,11 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
  * @param data
  * @param ctx
  */
-export const User = createParamDecorator(
+export const Staff = createParamDecorator(
   (data: string, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
-    const user = request.user;
+    const staff = request.user;
 
-    return data ? user?.[data] : user;
+    return data ? staff?.[data] : staff;
   },
 );

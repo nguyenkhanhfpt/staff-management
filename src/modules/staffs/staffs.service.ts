@@ -116,12 +116,9 @@ export class StaffsService {
   }
 
   async findAllPosts(staffId: string): Promise<GetStaffPostsResDto[]> {
-    // Verify staff exists
-    await this.findOne(staffId);
-
     const posts = await this.postRepository
       .createQueryBuilder('p')
-      .select(['p.id', 'p.title', 'p.content', 'p.createdAt'])
+      .select('p')
       .where('p.staffId = :staffId', { staffId })
       .orderBy('p.createdAt', 'DESC')
       .getMany();
@@ -231,7 +228,6 @@ export class StaffsService {
   }
 
   async getStaffDepartments(staffId: string): Promise<StaffDepartmentEntity[]> {
-    // Verify staff exists
     await this.findOne(staffId);
 
     return this.staffDepartmentRepository.find({

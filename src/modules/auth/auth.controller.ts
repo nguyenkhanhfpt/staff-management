@@ -6,7 +6,7 @@ import {
   ApiErrorsResponse,
   ApiGetErrorsResponse,
   Public,
-  User,
+  Staff,
 } from '@decorators';
 import { RefreshTokenGuard } from '@guards';
 import {
@@ -85,8 +85,8 @@ export class AuthController {
   })
   @ApiGetErrorsResponse()
   @Serialize(GetTokenDto)
-  refresh(@User() user: any) {
-    const { refreshToken, email } = user;
+  refresh(@Staff() staff: any) {
+    const { refreshToken, email } = staff;
 
     return this.authService.refresh(email, refreshToken);
   }
@@ -103,7 +103,7 @@ export class AuthController {
   })
   @Serialize(GetStaffResDto)
   @ApiGetErrorsResponse()
-  getStaff(@User('id') staffId: string): Promise<GetStaffResDto> {
+  getStaff(@Staff('id') staffId: string): Promise<GetStaffResDto> {
     return this.authService.getStaff(staffId);
   }
 }

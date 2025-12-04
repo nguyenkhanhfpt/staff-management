@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { UpdatePostDto } from './dto/req/update-post.dto';
-import { User as UserDecorator } from '@decorators/user.decorator';
+import { Staff } from '@decorators';
 import { StaffEntity } from '@database/entities/staff.entity';
 import {
   ApiBearerAuth,
@@ -37,10 +37,7 @@ export class PostsController {
     description: 'Post has been successfully created.',
   })
   @ApiErrorsResponse()
-  create(
-    @Body() createPostDto: CreatePostDto,
-    @UserDecorator('id') staffId: string,
-  ) {
+  create(@Body() createPostDto: CreatePostDto, @Staff('id') staffId: string) {
     return this.postsService.create(createPostDto, staffId);
   }
 
@@ -90,7 +87,7 @@ export class PostsController {
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updatePostDto: UpdatePostDto,
-    @UserDecorator() staff: StaffEntity,
+    @Staff() staff: StaffEntity,
   ) {
     return this.postsService.update(id, updatePostDto, staff.id);
   }
@@ -107,10 +104,7 @@ export class PostsController {
     description: 'Post has been successfully deleted.',
   })
   @ApiGetErrorsResponse()
-  remove(
-    @Param('id', ParseUUIDPipe) id: string,
-    @UserDecorator() staff: StaffEntity,
-  ) {
+  remove(@Param('id', ParseUUIDPipe) id: string, @Staff() staff: StaffEntity) {
     return this.postsService.remove(id, staff.id);
   }
 }
