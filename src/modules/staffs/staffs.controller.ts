@@ -122,8 +122,6 @@ export class StaffsController {
     return this.staffsService.findAllPosts(id);
   }
 
-  // Staff Info endpoints
-
   @Post(':id/info')
   @ApiOperation({ summary: 'Create staff info' })
   @ApiParam({
@@ -140,7 +138,6 @@ export class StaffsController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() createStaffInfoDto: CreateStaffInfoDto,
   ) {
-    // Ensure the staffId matches the URL parameter
     createStaffInfoDto.staffId = id;
     return this.staffsService.createStaffInfo(createStaffInfoDto);
   }

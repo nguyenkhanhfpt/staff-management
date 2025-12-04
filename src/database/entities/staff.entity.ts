@@ -1,19 +1,19 @@
 import {
   Column,
+  CreateDateColumn,
   DeleteDateColumn,
   Entity,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { PostEntity } from './post.entity';
 import { StaffInfoEntity } from './staff-info.entity';
 import { StaffDepartmentEntity } from './staff-department.entity';
-import { OmitType } from '@nestjs/mapped-types';
-import { BaseEntity } from './base.entity';
 
 @Entity({ name: 'staffs' })
-export class StaffEntity extends OmitType(BaseEntity, ['id']) {
+export class StaffEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -37,6 +37,12 @@ export class StaffEntity extends OmitType(BaseEntity, ['id']) {
     (staffDepartment) => staffDepartment.staff,
   )
   staffDepartments: StaffDepartmentEntity[];
+
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
+  updatedAt: Date;
 
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp', nullable: true })
   deletedAt?: Date | null;
