@@ -9,6 +9,7 @@ import { StaffInfoEntity } from '@database/entities/staff-info.entity';
 import { StaffDepartmentEntity } from '@database/entities/staff-department.entity';
 import { DepartmentEntity } from '@database/entities/department.entity';
 import { OfficeEntity } from '@database/entities/office.entity';
+import { StaffResolverService } from './staff-resolver.service';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { OfficeEntity } from '@database/entities/office.entity';
     ]),
   ],
   controllers: [StaffsController],
-  providers: [StaffsService, StaffsResolver],
+  providers: [StaffsService, StaffsResolver, StaffResolverService],
   exports: [StaffsService],
 })
 export class StaffsModule {}
