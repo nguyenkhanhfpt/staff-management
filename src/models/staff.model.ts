@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { StaffInfo } from './staff-info.model';
 
 @ObjectType()
 export class Staff {
@@ -10,4 +11,7 @@ export class Staff {
 
   @Field()
   email: string;
+
+  @Field(() => StaffInfo)
+  staffInfo?: StaffInfo | null;
 }
