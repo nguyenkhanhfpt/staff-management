@@ -25,7 +25,7 @@ export class StaffInfo {
   startDate?: string | null;
 
   @Field()
-  dateOfBirth?: Date | null;
+  dateOfBirth?: string | null;
 
   @Field()
   nationality?: string | null;

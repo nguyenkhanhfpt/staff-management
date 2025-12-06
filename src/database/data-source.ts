@@ -17,4 +17,5 @@ export default new DataSource({
   dropSchema: false,
   seeds: [join(__dirname, '../database/seeds/*{.ts,.js}')],
   seedTracking: true,
+  factories: [join(__dirname, '../database/factories/*{.ts,.js}')],
 } as DataSourceOptions & SeederOptions);
