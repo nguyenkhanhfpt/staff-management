@@ -1,3 +1,4 @@
+import { STAFF_INFO_DEFAULT_AVATARS } from '@shared/constants/app.constant';
 import * as bcrypt from 'bcrypt';
 import { I18nContext, TranslateOptions } from 'nestjs-i18n';
 
@@ -21,4 +22,11 @@ export const comparePassword = async (
  */
 export const t = (key: string, options?: TranslateOptions): string => {
   return I18nContext.current()?.t(key, options) || key;
+};
+
+export const getRandomStaffAvatar: () => string = () => {
+  const randomIndex = Math.floor(
+    Math.random() * STAFF_INFO_DEFAULT_AVATARS.length,
+  );
+  return STAFF_INFO_DEFAULT_AVATARS[randomIndex];
 };
