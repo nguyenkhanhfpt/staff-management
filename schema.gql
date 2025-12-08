@@ -23,6 +23,8 @@ type Staff {
   id: ID!
   name: String!
   email: String!
+  status: String!
+  role: String!
   staffInfo: StaffInfo
 }
 

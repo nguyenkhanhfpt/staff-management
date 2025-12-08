@@ -12,6 +12,12 @@ export class Staff {
   @Field()
   email: string;
 
+  @Field()
+  status: string;
+
+  @Field()
+  role: string;
+
   @Field(() => StaffInfo)
   staffInfo?: StaffInfo | null;
 }
